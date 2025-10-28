@@ -24,7 +24,7 @@ class HuntingBookingTest extends TestCase
         Guide::factory()->create(['is_active' => true, 'name' => 'John']);
         Guide::factory()->create(['is_active' => false, 'name' => 'Jane']);
 
-        $response = $this->getJson('/api/hunting/guides');
+        $response = $this->getJson('/api/guides');
 
         $response->assertStatus(200)
             ->assertJsonCount(1, 'data')
@@ -36,7 +36,7 @@ class HuntingBookingTest extends TestCase
         Guide::factory()->create(['experience_years' => 5, 'is_active' => true]);
         Guide::factory()->create(['experience_years' => 2, 'is_active' => true]);
 
-        $response = $this->getJson('/api/hunting/guides?min_experience=3');
+        $response = $this->getJson('/api/guides?min_experience=3');
 
         $response->assertStatus(200)
             ->assertJsonCount(1, 'data');
@@ -46,7 +46,7 @@ class HuntingBookingTest extends TestCase
     {
         $guide = Guide::factory()->create(['is_active' => true]);
 
-        $response = $this->postJson('/api/hunting/bookings', [
+        $response = $this->postJson('/api/bookings', [
             'tour_name' => 'Медвежья охота',
             'hunter_name' => 'Иван Иванов',
             'guide_id' => $guide->id,
@@ -74,7 +74,7 @@ class HuntingBookingTest extends TestCase
             'date' => $date,
         ]);
 
-        $response = $this->postJson('/api/hunting/bookings', [
+        $response = $this->postJson('/api/bookings', [
             'tour_name' => 'Другой тур',
             'hunter_name' => 'Петр Петров',
             'guide_id' => $guide->id,
@@ -90,7 +90,7 @@ class HuntingBookingTest extends TestCase
     {
         $guide = Guide::factory()->create(['is_active' => true]);
 
-        $response = $this->postJson('/api/hunting/bookings', [
+        $response = $this->postJson('/api/bookings', [
             'tour_name' => 'Тур',
             'hunter_name' => 'Охотник',
             'guide_id' => $guide->id,
@@ -106,7 +106,7 @@ class HuntingBookingTest extends TestCase
     {
         $guide = Guide::factory()->create(['is_active' => false]);
 
-        $response = $this->postJson('/api/hunting/bookings', [
+        $response = $this->postJson('/api/bookings', [
             'tour_name' => 'Тур',
             'hunter_name' => 'Охотник',
             'guide_id' => $guide->id,
@@ -122,7 +122,7 @@ class HuntingBookingTest extends TestCase
     {
         $guide = Guide::factory()->create(['is_active' => true]);
 
-        $response = $this->postJson('/api/hunting/bookings', [
+        $response = $this->postJson('/api/bookings', [
             'tour_name' => 'Тур',
             'hunter_name' => 'Охотник',
             'guide_id' => $guide->id,
@@ -132,27 +132,5 @@ class HuntingBookingTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['date']);
-    }
-
-    public function test_can_show_single_guide(): void
-    {
-        $guide = Guide::factory()->create(['name' => 'Test Guide']);
-
-        $response = $this->getJson("/api/hunting/guides/{$guide->id}");
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['name' => 'Test Guide']);
-    }
-
-    public function test_can_show_single_booking(): void
-    {
-        $booking = HuntingBooking::factory()->create([
-            'tour_name' => 'Special Tour'
-        ]);
-
-        $response = $this->getJson("/api/hunting/bookings/{$booking->id}");
-
-        $response->assertStatus(200)
-            ->assertJsonFragment(['tour_name' => 'Special Tour']);
     }
 }

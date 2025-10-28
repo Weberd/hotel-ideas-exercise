@@ -17,7 +17,7 @@ final class StoreHuntingBookingRequest extends FormRequest
         return [
             'tour_name' => ['required', 'string', 'max:255'],
             'hunter_name' => ['required', 'string', 'max:255'],
-            'guide_id' => ['required', 'integer', Rule::exists('guides', 'id')->where('is_active', true)],
+            'guide_id' => ['required', 'integer', Rule::exists('hunting_guides', 'id')->where('is_active', true)],
             'date' => ['required', 'date', 'after_or_equal:today'],
             'participants_count' => ['required', 'integer', 'min:1', 'max:10'],
         ];

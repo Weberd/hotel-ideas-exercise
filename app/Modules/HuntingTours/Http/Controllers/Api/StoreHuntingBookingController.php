@@ -6,6 +6,7 @@ use App\Modules\HuntingTours\Http\Controllers\Controller;
 use App\Modules\HuntingTours\Http\Requests\StoreHuntingBookingRequest;
 use App\Modules\HuntingTours\Http\Resources\HuntingBookingResource;
 use App\Modules\HuntingTours\Services\BookingService;
+use App\Modules\HuntingTours\Services\GuideService;
 use Illuminate\Http\JsonResponse;
 
 final class StoreHuntingBookingController extends Controller
@@ -13,8 +14,7 @@ final class StoreHuntingBookingController extends Controller
     public function __construct(
         private readonly GuideService $guideService,
         private readonly BookingService $bookingService,
-    )
-    {
+    ) {
     }
 
     public function __invoke(StoreHuntingBookingRequest $request): JsonResponse
