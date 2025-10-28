@@ -11,6 +11,8 @@ class Guide extends Model
 {
     use HasFactory;
 
+    protected $table = 'hunting_guides';
+
     protected $fillable = [
         'name',
         'experience_years',

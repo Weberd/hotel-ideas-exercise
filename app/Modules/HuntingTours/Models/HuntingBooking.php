@@ -11,6 +11,8 @@ class HuntingBooking extends Model
 {
     use HasFactory;
 
+    protected $table = 'hunting_bookings';
+
     protected $fillable = [
         'tour_name',
         'hunter_name',
